@@ -16,9 +16,8 @@ export class AgendamentoRepository extends Repository<Agendamento> {
   async createAgendamento(
     createAgendamentoDto: CreateAgendamentoDto,
   ): Promise<Agendamento> {
-    const { nome, data, hora, servico } = createAgendamentoDto;
+    const { data, hora, servico } = createAgendamentoDto;
     const agendamento = this.create({
-      nome,
       data,
       hora,
       servico,

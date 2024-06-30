@@ -14,13 +14,21 @@ export class AgendamentoService {
 
   async createAgendamento(
     createAgendamentoDto: CreateAgendamentoDto,
+    userId: number,
   ): Promise<Agendamento> {
-    const agendamento = this.agendamentoRepository.create(createAgendamentoDto);
+    const agendamento = this.agendamentoRepository.create({
+      ...createAgendamentoDto,
+      userId,
+    });
     return await this.agendamentoRepository.save(agendamento);
   }
 
-  async findAllAgendamentos(): Promise<Agendamento[]> {
-    return await this.agendamentoRepository.find();
+  async findAllAgendamentos(userId: number): Promise<Agendamento[]> {
+    return await this.agendamentoRepository
+      .createQueryBuilder('agendamento')
+      .innerJoinAndSelect('agendamento.userId', 'user')
+      .where('agendamento.userId = :userId', { userId: userId })
+      .getMany();
   }
 
   async findOneById(id: number): Promise<Agendamento | undefined> {

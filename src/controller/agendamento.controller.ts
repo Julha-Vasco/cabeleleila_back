@@ -7,24 +7,36 @@ import {
   Delete,
   Param,
   NotFoundException,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import { AgendamentoService } from '../service/agendamento.service';
 import { CreateAgendamentoDto } from 'src/users/dto/agendamento/create-agendamento.dto';
 import { UpdateAgendamentoDto } from 'src/users/dto/agendamento/update-agendamento.dto';
 import { Agendamento } from 'src/users/entities/agendamento.entity';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('agendamentos')
 export class AgendamentoController {
   constructor(private readonly agendamentoService: AgendamentoService) {}
 
+  @UseGuards(AuthGuard)
   @Post()
-  async create(@Body() createAgendamentoDto: CreateAgendamentoDto) {
-    return this.agendamentoService.createAgendamento(createAgendamentoDto);
+  async create(
+    @Body() createAgendamentoDto: CreateAgendamentoDto,
+    @Request() req,
+  ) {
+    const userId = req.user.sub;
+    return this.agendamentoService.createAgendamento(
+      createAgendamentoDto,
+      userId,
+    );
   }
 
+  @UseGuards(AuthGuard)
   @Get()
-  async findAll() {
-    return this.agendamentoService.findAllAgendamentos();
+  async findAll(@Request() req) {
+    return this.agendamentoService.findAllAgendamentos(req.user.sub);
   }
 
   @Get(':id')

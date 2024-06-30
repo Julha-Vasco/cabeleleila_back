@@ -3,10 +3,6 @@ import { IsString, IsDate, IsNotEmpty } from 'class-validator';
 export class CreateAgendamentoDto {
   @IsString()
   @IsNotEmpty()
-  nome: string;
-
-  @IsString()
-  @IsNotEmpty()
   servico: string;
 
   @IsDate()
