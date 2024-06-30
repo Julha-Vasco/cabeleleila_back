@@ -15,11 +15,11 @@ export class AuthController {
   @Post('login')
   async login(@Body() loginDto: LoginDto) {
     try {
-      const result = await this.authService.validateUser(
+      const result = await this.authService.signIn(
         loginDto.email,
         loginDto.password,
       );
-      return { statusCode: HttpStatus.OK, data: result }; // Exemplo de resposta de sucesso
+      return { statusCode: HttpStatus.OK, data: result };
     } catch (error) {
       throw new HttpException(
         'Erro ao tentar fazer login',

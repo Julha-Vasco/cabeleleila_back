@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Agendamento } from '../users/entities/agendamento.entity'; // Verifique o caminho correto para a entidade
-import { CreateAgendamentoDto } from '../users/dto/agendamento/create-agendamento.dto'; // Verifique o caminho correto para o DTO
-import { UpdateAgendamentoDto } from '../users/dto/agendamento/update-agendamento.dto'; // Verifique o caminho correto para o DTO
+import { Agendamento } from '../users/entities/agendamento.entity';
+import { CreateAgendamentoDto } from '../users/dto/agendamento/create-agendamento.dto';
+import { UpdateAgendamentoDto } from '../users/dto/agendamento/update-agendamento.dto';
 
 @Injectable()
 export class AgendamentoService {
