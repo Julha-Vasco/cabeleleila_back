@@ -55,14 +55,17 @@ export class AgendamentoController {
     return agendamento;
   }
 
+  @UseGuards(AuthGuard)
   @Put(':id')
   async update(
     @Param('id') id: string,
     @Body() updateAgendamentoDto: UpdateAgendamentoDto,
+    @Request() req,
   ): Promise<{ message: string }> {
     const updatedAgendamento = await this.agendamentoService.updateAgendamento(
       parseInt(id, 10),
       updateAgendamentoDto,
+      req.user.sub,
     );
 
     if (!updatedAgendamento) {

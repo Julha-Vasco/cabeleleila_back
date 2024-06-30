@@ -58,8 +58,12 @@ export class AgendamentoService {
   async updateAgendamento(
     id: number,
     updateAgendamentoDto: UpdateAgendamentoDto,
+    userId: number,
   ): Promise<Agendamento> {
-    let agendamento = await this.agendamentoRepository.findOneBy({ id: id });
+    let agendamento = await this.agendamentoRepository.findOneBy({
+      id: id,
+      userId: userId,
+    });
 
     if (!agendamento) {
       throw new NotFoundException(`Agendamento de ID ${id} não encontrado.`);
