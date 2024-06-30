@@ -39,10 +39,15 @@ export class AgendamentoController {
     return this.agendamentoService.findAllAgendamentos(req.user.sub);
   }
 
+  @UseGuards(AuthGuard)
   @Get(':id')
-  async findOneById(@Param('id') id: string): Promise<Agendamento> {
+  async findOneById(
+    @Param('id') id: string,
+    @Request() req,
+  ): Promise<Agendamento> {
     const agendamento = await this.agendamentoService.findOneById(
       parseInt(id, 10),
+      req.user.sub,
     );
     if (!agendamento) {
       throw new NotFoundException(`Agendamento de ID ${id} não encontrado`);
@@ -67,12 +72,15 @@ export class AgendamentoController {
     return { message: `Agendamento de ID ${id} atualizado com sucesso` };
   }
 
+  @UseGuards(AuthGuard)
   @Delete(':id')
   async deleteAgendamento(
     @Param('id') id: string,
+    @Request() req,
   ): Promise<{ message: string }> {
     const agendamento = await this.agendamentoService.findOneById(
       parseInt(id, 10),
+      req.user.sub,
     );
     if (!agendamento) {
       throw new NotFoundException(`Agendamento de ID ${id} não encontrado`);

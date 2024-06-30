@@ -18,7 +18,7 @@ export class AgendamentoService {
   ): Promise<Agendamento> {
     const agendamento = this.agendamentoRepository.create({
       ...createAgendamentoDto,
-      userId,
+      userId: userId,
     });
     return await this.agendamentoRepository.save(agendamento);
   }
@@ -31,10 +31,13 @@ export class AgendamentoService {
       .getMany();
   }
 
-  async findOneById(id: number): Promise<Agendamento | undefined> {
+  async findOneById(
+    id: number,
+    userId: number,
+  ): Promise<Agendamento | undefined> {
     try {
       const agendamento = await this.agendamentoRepository.findOne({
-        where: { id: id },
+        where: { id: id, userId: userId },
       });
       if (!agendamento) {
         throw new NotFoundException(`Agendamento de ID ${id} não encontrado.`);

@@ -16,5 +16,6 @@ export class Agendamento {
   servico: string;
 
   @ManyToOne(() => User, (user) => user.id)
+  @Column({ name: 'userIdId' })
   userId: number;
 }
